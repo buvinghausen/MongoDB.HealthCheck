@@ -18,25 +18,26 @@ namespace MongoDB.HealthCheck
 		internal MongoHealthCheck(string connectionString) =>
 			_url = new MongoUrl(connectionString);
 
-		public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context,
+		public async Task<HealthCheckResult> CheckHealthAsync(
+			HealthCheckContext context,
 			CancellationToken cancellationToken = default)
 		{
 			try
 			{
 				// Connect with a new client
 				var client = new MongoClient(_url);
-				
+
 				// Run dbstats operation which contains the OK value we need
-				var stats = await client.GetDatabase(_url.DatabaseName)
+				var ping = await client.GetDatabase(_url.DatabaseName)
 					.RunCommandAsync<BsonDocument>(new BsonDocument
-						{{"dbstats", 1}}, null, cancellationToken);
-				
-				// Mongo has different response types with dbstats
-				// Somestimes ok is 1.0 othertimes it is 1
+						{{"ping", 1}}, null, cancellationToken);
+
+				// Mongo has different response types with ping
+				// Sometimes ok is 1.0 othertimes it is 1
 				// Handle both cases correctly
-				if (stats.Contains("ok") &&
-					(stats["ok"].IsDouble && stats["ok"].AsDouble == 1 ||
-					 stats["ok"].IsInt32 && stats["ok"].AsInt32 == 1))
+				if (ping.Contains("ok") &&
+					(ping["ok"].IsDouble && ping["ok"].AsDouble == 1 ||
+					 ping["ok"].IsInt32 && ping["ok"].AsInt32 == 1))
 				{
 					// Return health check value based on cluster state
 					// This works whether connecting to a single server
@@ -52,7 +53,7 @@ namespace MongoDB.HealthCheck
 				{
 					// Stats came back bad/not ok so return them in a failed check
 					return HealthCheckResult.Failed(
-						$"{context.Registration.Name}: {stats.ToJson()}");
+						$"{context.Registration.Name}: {ping.ToJson()}");
 				}
 			}
 			catch (Exception ex)
