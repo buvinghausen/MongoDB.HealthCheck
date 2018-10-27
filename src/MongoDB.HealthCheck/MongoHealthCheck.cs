@@ -27,7 +27,8 @@ namespace MongoDB.HealthCheck
 				// Connect with a new client
 				var client = new MongoClient(_url);
 
-				// Run dbstats operation which contains the OK value we need
+				// Run ping operation which contains the OK value we need
+				// This will also trigger the client cluster state to get populated
 				var ping = await client.GetDatabase(_url.DatabaseName)
 					.RunCommandAsync<BsonDocument>(new BsonDocument
 						{{"ping", 1}}, null, cancellationToken);
@@ -51,7 +52,7 @@ namespace MongoDB.HealthCheck
 				}
 				else
 				{
-					// Stats came back bad/not ok so return them in a failed check
+					// Ping came back bad/not ok so return them in a failed check
 					return HealthCheckResult.Failed(
 						$"{context.Registration.Name}: {ping.ToJson()}");
 				}
