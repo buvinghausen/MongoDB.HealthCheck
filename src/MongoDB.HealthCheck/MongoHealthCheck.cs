@@ -45,22 +45,22 @@ namespace MongoDB.HealthCheck
 					// Or to a replica set
 					return client.Cluster.Description.State ==
 						   ClusterState.Connected
-						? HealthCheckResult.Passed(
+						? HealthCheckResult.Healthy(
 							$"{context.Registration.Name}: ClusterState.Connected")
-						: HealthCheckResult.Failed(
+						: HealthCheckResult.Unhealthy(
 							$"{context.Registration.Name}: ClusterState.Disconnected");
 				}
 				else
 				{
 					// Ping came back bad/not ok so return them in a failed check
-					return HealthCheckResult.Failed(
+					return HealthCheckResult.Unhealthy(
 						$"{context.Registration.Name}: {ping.ToJson()}");
 				}
 			}
 			catch (Exception ex)
 			{
 				// Exception fired 
-				return HealthCheckResult.Failed(
+				return HealthCheckResult.Unhealthy(
 					$"{context.Registration.Name}: Exception {ex.GetType().FullName}",
 					ex);
 			}
