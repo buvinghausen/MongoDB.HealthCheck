@@ -31,13 +31,13 @@ namespace MongoDB.HealthCheck
 				// This will also trigger the client cluster state to get populated
 				var ping = await client.GetDatabase(_url.DatabaseName)
 					.RunCommandAsync<BsonDocument>(new BsonDocument
-						{{"ping", 1}}, null, cancellationToken);
+						{{"ping", 1}}, default, cancellationToken);
 
 				// Mongo has different response types with ping
-				// Sometimes ok is 1.0 othertimes it is 1
+				// Sometimes ok is 1.0 other times it is 1
 				// Handle both cases correctly
 				if (ping.Contains("ok") &&
-					(ping["ok"].IsDouble && ping["ok"].AsDouble == 1 ||
+					(ping["ok"].IsDouble && (int)ping["ok"].AsDouble == 1 ||
 					 ping["ok"].IsInt32 && ping["ok"].AsInt32 == 1))
 				{
 					// Return health check value based on cluster state
@@ -50,12 +50,10 @@ namespace MongoDB.HealthCheck
 						: HealthCheckResult.Unhealthy(
 							$"{context.Registration.Name}: ClusterState.Disconnected");
 				}
-				else
-				{
-					// Ping came back bad/not ok so return them in a failed check
-					return HealthCheckResult.Unhealthy(
-						$"{context.Registration.Name}: {ping.ToJson()}");
-				}
+
+				// Ping came back bad/not ok so return them in a failed check
+				return HealthCheckResult.Unhealthy(
+					$"{context.Registration.Name}: {ping.ToJson()}");
 			}
 			catch (Exception ex)
 			{

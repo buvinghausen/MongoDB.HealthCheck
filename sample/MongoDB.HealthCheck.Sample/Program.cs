@@ -6,8 +6,8 @@ namespace MongoDB.HealthCheck.Sample
 {
 	internal class Program
 	{
-		private static async Task Main(string[] args) =>
-			await WebHost
+		private static Task Main(string[] args) =>
+			WebHost
 				.CreateDefaultBuilder(args)
 				.UseStartup<Startup>()
 				.Build()

@@ -5,9 +5,5 @@ namespace MongoDB.HealthCheck.Sample.Settings
 	{
 		public static string Name =>
 			typeof(T).Name.Replace("Settings", string.Empty);
-
-		protected BaseSettings()
-		{
-		}
 	}
 }
