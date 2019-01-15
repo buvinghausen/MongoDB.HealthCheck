@@ -17,14 +17,11 @@ namespace MongoDB.HealthCheck
 			if (builder == null)
 				throw new ArgumentNullException(nameof(builder));
 
-			if (string.IsNullOrWhiteSpace(connectionString))
-				throw new ArgumentNullException(nameof(connectionString));
-
-			if (name == null)
-				name = "MongoDb";
-
-			return builder.AddCheck(name,
-				new MongoHealthCheck(connectionString), failureStatus, tags);
+			return builder.AddCheck(name ?? "MongoDb",
+				new MongoHealthCheck(connectionString ??
+				                     throw new ArgumentNullException(
+					                     nameof(connectionString))),
+				failureStatus, tags);
 		}
 	}
 }
