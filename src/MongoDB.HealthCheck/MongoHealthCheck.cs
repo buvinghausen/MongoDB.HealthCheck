@@ -29,7 +29,7 @@ namespace MongoDB.HealthCheck
 
 				// Run ping operation which contains the OK value we need
 				// This will also trigger the client cluster state to get populated
-				var ping = await client.GetDatabase(_url.DatabaseName)
+				var ping = await client.GetDatabase(_url.DatabaseName ?? "admin")
 					.RunCommandAsync<BsonDocument>(
 						new BsonDocument { { "ping", 1 } }, default,
 						cancellationToken);
