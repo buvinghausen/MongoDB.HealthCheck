@@ -41,7 +41,7 @@ namespace MongoDB.HealthCheck
 				// Sometimes ok is 1.0 other times it is 1
 				// Handle both cases correctly
 				if (ping.Contains("ok") &&
-					(ping["ok"].IsDouble && (int)ping["ok"].AsDouble == 1 ||
+					(ping["ok"].IsDouble && ping["ok"].AsDouble == 1 ||
 					 ping["ok"].IsInt32 && ping["ok"].AsInt32 == 1))
 				{
 					// Return health check value based on cluster state
