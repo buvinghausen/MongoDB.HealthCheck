@@ -26,9 +26,7 @@ namespace MongoDB.HealthCheck
 			this(new MongoUrl(connectionString))
 		{ }
 
-		public async Task<HealthCheckResult> CheckHealthAsync(
-			HealthCheckContext context,
-			CancellationToken cancellationToken = default)
+		public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
 		{
 			try
 			{
@@ -47,8 +45,7 @@ namespace MongoDB.HealthCheck
 					// Return health check value based on cluster state
 					// This works whether connecting to a single server
 					// Or to a replica set
-					return _database.Client.Cluster.Description.State ==
-						   ClusterState.Connected
+					return _database.Client.Cluster.Description.State == ClusterState.Connected
 						? HealthCheckResult.Healthy(
 							$"{context.Registration.Name}: ClusterState.Connected")
 						: HealthCheckResult.Unhealthy(
