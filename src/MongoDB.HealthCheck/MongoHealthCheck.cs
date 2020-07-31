@@ -33,7 +33,8 @@ namespace MongoDB.HealthCheck
 				// Run ping operation which contains the OK value we need
 				// This will also trigger the client cluster state to get populated
 				var ping = await _database
-					.RunCommandAsync<BsonDocument>(new BsonDocument { { "ping", 1 } }, default, cancellationToken);
+					.RunCommandAsync<BsonDocument>(new BsonDocument { { "ping", 1 } }, default, cancellationToken)
+					.ConfigureAwait(false);
 
 				// Mongo has different response types with ping
 				// Sometimes ok is 1.0 other times it is 1
