@@ -19,6 +19,6 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore -c Release
-    - name: Test
-      run: dotnet test --no-build -c Release -v n
+      run: dotnet build --no-restore
+#    - name: Test
+#      run: dotnet test --no-build -v n
