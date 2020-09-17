@@ -8,13 +8,9 @@ namespace MongoDB.HealthCheck
 {
 	public static class MongoHealthCheckExtensions
 	{
-		internal static IHealthChecksBuilder AddMongoHealthCheck(this IHealthChecksBuilder builder, MongoHealthCheck check, string name = default, HealthStatus? failureStatus = default, IEnumerable<string> tags = default)
-		{
-			if (builder == null)
-				throw new ArgumentNullException(nameof(builder));
-
-			return builder.AddCheck(name ?? "MongoDb", check, failureStatus, tags);
-		}
+		internal static IHealthChecksBuilder AddMongoHealthCheck(this IHealthChecksBuilder builder, MongoHealthCheck check, string name = default, HealthStatus? failureStatus = default, IEnumerable<string> tags = default) => builder is null
+				? throw new ArgumentNullException(nameof(builder))
+				: builder.AddCheck(name ?? "MongoDb", check, failureStatus, tags);
 
 		public static IHealthChecksBuilder AddMongoHealthCheck(this IHealthChecksBuilder builder, string name = default, IMongoDatabase database = default, HealthStatus? failureStatus = default, IEnumerable<string> tags = default) =>
 			builder.AddMongoHealthCheck(new MongoHealthCheck(database ?? throw new ArgumentNullException(nameof(database))), name, failureStatus, tags);

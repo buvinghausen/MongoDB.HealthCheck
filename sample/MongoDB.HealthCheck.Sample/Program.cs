@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MongoDB.HealthCheck.Sample.Settings;
 
 namespace MongoDB.HealthCheck.Sample
 {
@@ -12,34 +11,25 @@ namespace MongoDB.HealthCheck.Sample
 	{
 		private static Task Main(string[] args) => Host
 			.CreateDefaultBuilder(args)
-			.ConfigureWebHostDefaults(web =>
-			{
-				web.ConfigureServices((hostContext, services) =>
+			.ConfigureWebHostDefaults(web => web
+				.ConfigureServices((hostContext, services) =>
 				{
-					var dbSettings = new DatabaseSettings();
-					hostContext
-						.Configuration
-						.GetSection(DatabaseSettings.Name)
-						.Bind(dbSettings);
-
-					services
+					_ = services
 						.AddHealthChecks()
-						.AddMongoHealthCheck("MongoSampleCheck", dbSettings.MongoUrl);
+						.AddMongoHealthCheck("Mongo", hostContext.Configuration.GetConnectionString("Mongo"));
 
-					services
+					_ = services
 						.AddControllers();
 
-				}).Configure((hostContext, app) =>
-				{
-					app
-						.UseRouting()
-						.UseEndpoints(endpoints =>
-						{
-							endpoints.MapControllers();
-							endpoints.MapHealthChecks("/healthz");
-						});
-				});
-			})
+				}).Configure((hostContext, app) => app
+					.UseRouting()
+					.UseEndpoints(endpoints =>
+					{
+						_ = endpoints.MapControllers();
+						_ = endpoints.MapHealthChecks("/healthz");
+					})
+				)
+			)
 			.Build()
 			.RunAsync();
 	}
