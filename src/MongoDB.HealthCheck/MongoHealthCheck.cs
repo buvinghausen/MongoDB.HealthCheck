@@ -39,9 +39,9 @@ namespace MongoDB.HealthCheck
 				// Mongo has different response types with ping
 				// Sometimes ok is 1.0 other times it is 1
 				// Handle both cases correctly
-				if (ping.Contains("ok") &&
-					(ping["ok"].IsDouble && Convert.ToDecimal(ping["ok"].AsDouble) == 1m ||
-					 ping["ok"].IsInt32 && ping["ok"].AsInt32 == 1))
+				if (ping.TryGetValue("ok", out var ok) &&
+					((ok.IsDouble && Math.Abs(ok.AsDouble - 1.0) < double.Epsilon) ||
+					 (ok.IsInt32 && ok.AsInt32 == 1)))
 				{
 					// Return health check value based on cluster state
 					// This works whether connecting to a single server
