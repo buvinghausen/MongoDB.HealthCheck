@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Extensions.DiagnosticSources;
 using MongoDB.HealthCheck;
@@ -27,6 +24,7 @@ _ = builder.Services.AddOpenTelemetryTracing(trace => trace
 		.AddMongoDBInstrumentation()
 		.AddConsoleExporter())
 	.AddControllers();
+
 var app = builder.Build();
 _ = app
 	.UseRouting()
@@ -35,5 +33,6 @@ _ = app
 		_ = endpoints.MapControllers();
 		_ = endpoints.MapHealthChecks("/healthz");
 	});
+
 await app.RunAsync()
 	.ConfigureAwait(false);
