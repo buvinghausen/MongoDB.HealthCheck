@@ -1,6 +1,5 @@
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Extensions.DiagnosticSources;
-using MongoDB.HealthCheck;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using SequentialGuid;
