@@ -2,6 +2,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using MongoDB.Driver;
 using MongoDB.HealthCheck;
 
+// ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;
 
 public static class MongoHealthCheckExtensions
