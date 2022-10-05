@@ -1,5 +1,6 @@
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Extensions.DiagnosticSources;
+using MongoDB.Driver.Linq;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using SequentialGuid;
@@ -7,6 +8,7 @@ using SequentialGuid;
 var builder = WebApplication.CreateBuilder(args);
 var url = new MongoUrl(builder.Configuration.GetConnectionString("Mongo"));
 var settings = MongoClientSettings.FromUrl(url);
+settings.LinqProvider = LinqProvider.V3;
 settings.ClusterConfigurator = cb =>
 	cb.Subscribe(new DiagnosticsActivityEventSubscriber(new InstrumentationOptions
 	{
@@ -15,7 +17,7 @@ settings.ClusterConfigurator = cb =>
 	}));
 _ = builder.Services
 	.AddHealthChecks()
-	.AddMongoHealthCheck("Mongo", new MongoClient(settings).GetDatabase(url.DatabaseName ?? "admin")); // Note this 
+	.AddMongoHealthCheck(new MongoClient(settings).GetDatabase(url.DatabaseName ?? "admin"), "Mongo"); // Note the preferred constructor is to use an IMongoDatabase which has all your settings, instrumentation, and configuration applied
 _ = builder.Services.AddOpenTelemetryTracing(trace => trace
 		.SetResourceBuilder(ResourceBuilder.CreateDefault()
 			.AddService(builder.Environment.ApplicationName, serviceInstanceId: SequentialGuidGenerator.Instance.NewGuid().ToString()))

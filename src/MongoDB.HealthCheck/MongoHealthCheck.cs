@@ -23,6 +23,14 @@ internal sealed class MongoHealthCheck : IHealthCheck
 		this(new MongoUrl(connectionString))
 	{ }
 
+	internal MongoHealthCheck(IMongoClient client) :
+		this(client.GetDatabase("admin"))
+	{ }
+
+	internal MongoHealthCheck(MongoClientSettings settings) :
+		this(new MongoClient(settings))
+	{ }
+
 	public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
 	{
 		try
