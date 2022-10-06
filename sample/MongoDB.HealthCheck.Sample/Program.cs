@@ -35,5 +35,6 @@ _ = app
 		_ = endpoints.MapHealthChecks("/healthz");
 	});
 
-await app.RunAsync()
+await app
+	.RunAsync()
 	.ConfigureAwait(false);
