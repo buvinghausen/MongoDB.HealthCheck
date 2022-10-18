@@ -5,6 +5,7 @@
     <IsPackable>false</IsPackable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <ImplicitUsings>true</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
 </Project>

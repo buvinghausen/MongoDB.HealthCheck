@@ -18,7 +18,8 @@ settings.ClusterConfigurator = cb =>
 _ = builder.Services
 	.AddHealthChecks()
 	.AddMongoHealthCheck(new MongoClient(settings).GetDatabase(url.DatabaseName ?? "admin"), "Mongo"); // Note the preferred constructor is to use an IMongoDatabase which has all your settings, instrumentation, and configuration applied
-_ = builder.Services.AddOpenTelemetryTracing(trace => trace
+_ = builder.Services
+	.AddOpenTelemetryTracing(trace => trace
 		.SetResourceBuilder(ResourceBuilder.CreateDefault()
 			.AddService(builder.Environment.ApplicationName, serviceInstanceId: SequentialGuidGenerator.Instance.NewGuid().ToString()))
 		.AddAspNetCoreInstrumentation()
@@ -27,13 +28,8 @@ _ = builder.Services.AddOpenTelemetryTracing(trace => trace
 	.AddControllers();
 
 var app = builder.Build();
-_ = app
-	.UseRouting()
-	.UseEndpoints(endpoints =>
-	{
-		_ = endpoints.MapControllers();
-		_ = endpoints.MapHealthChecks("/healthz");
-	});
+_ = app.MapControllers();
+_ = app.MapHealthChecks("/healthz");
 
 await app
 	.RunAsync()
