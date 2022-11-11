@@ -40,7 +40,7 @@ settings.ClusterConfigurator = cb =>
 var database = new MongoClient(settings).GetDatabase(url.DatabaseName ?? "admin");
 
 // Add both Http & Grpc health checks
-// Note the preferred constructor is to use an IMongoDatabase which has all your settings, instrumentation, and configuration applied
+// Note the preferred function is to use an IMongoDatabase which has all your settings, instrumentation, and configuration applied
 _ = builder.Services
 	.AddHealthChecks()
 	.AddMongoHealthCheck(database, "MongoHttp"); 
