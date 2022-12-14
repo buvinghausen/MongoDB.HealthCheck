@@ -1,6 +1,7 @@
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Extensions.DiagnosticSources;
 using MongoDB.Driver.Linq;
+using OpenTelemetry;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using ProtoBuf.Grpc.Server;
@@ -10,7 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Configure OpenTelemetry
 _ = builder.Services
-	.AddOpenTelemetryTracing(trace => trace
+	.AddOpenTelemetry()
+	.WithTracing(trace => trace
 		.SetResourceBuilder(ResourceBuilder.CreateDefault()
 			.AddService(builder.Environment.ApplicationName, serviceInstanceId: SequentialGuidGenerator.Instance.NewGuid().ToString()))
 		.AddAspNetCoreInstrumentation(o =>
@@ -20,6 +22,10 @@ _ = builder.Services
 		})
 		.AddMongoDBInstrumentation()
 		.AddConsoleExporter())
+	.StartWithHost();
+
+// Add ASP.NET MVC
+_ = builder.Services
 	.AddControllers();
 
 // Add GrpcCodeFirst
