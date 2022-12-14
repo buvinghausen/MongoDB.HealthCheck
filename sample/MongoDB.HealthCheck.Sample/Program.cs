@@ -8,6 +8,17 @@ using ProtoBuf.Grpc.Server;
 using SequentialGuid;
 
 var builder = WebApplication.CreateBuilder(args);
+// Configure MongoDB for OpenTelemetry instrumentation
+var url = new MongoUrl(builder.Configuration.GetConnectionString("Mongo"));
+var settings = MongoClientSettings.FromUrl(url);
+settings.LinqProvider = LinqProvider.V3;
+settings.ClusterConfigurator = cb =>
+	cb.Subscribe(new DiagnosticsActivityEventSubscriber(new InstrumentationOptions
+	{
+		CaptureCommandText = true,
+		ShouldStartActivity = evt => string.IsNullOrWhiteSpace(url.DatabaseName) || evt.DatabaseNamespace.DatabaseName == url.DatabaseName
+	}));
+var database = new MongoClient(settings).GetDatabase(url.DatabaseName ?? "admin");
 
 // Configure OpenTelemetry
 _ = builder.Services
@@ -32,18 +43,6 @@ _ = builder.Services
 builder.Services
 	.AddCodeFirstGrpcReflection()
 	.AddCodeFirstGrpc();
-
-// Configure MongoDB for OpenTelemetry instrumentation
-var url = new MongoUrl(builder.Configuration.GetConnectionString("Mongo"));
-var settings = MongoClientSettings.FromUrl(url);
-settings.LinqProvider = LinqProvider.V3;
-settings.ClusterConfigurator = cb =>
-	cb.Subscribe(new DiagnosticsActivityEventSubscriber(new InstrumentationOptions
-	{
-		CaptureCommandText = true,
-		ShouldStartActivity = evt => string.IsNullOrWhiteSpace(url.DatabaseName) || evt.DatabaseNamespace.DatabaseName == url.DatabaseName
-	}));
-var database = new MongoClient(settings).GetDatabase(url.DatabaseName ?? "admin");
 
 // Add both Http & Grpc health checks
 // Note the preferred function is to use an IMongoDatabase which has all your settings, instrumentation, and configuration applied
