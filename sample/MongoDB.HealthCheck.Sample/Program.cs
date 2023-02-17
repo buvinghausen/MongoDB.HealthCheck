@@ -1,7 +1,6 @@
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Extensions.DiagnosticSources;
 using MongoDB.Driver.Linq;
-using OpenTelemetry;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using ProtoBuf.Grpc.Server;
@@ -32,8 +31,7 @@ _ = builder.Services
 			o.EnableGrpcAspNetCoreSupport = true;
 		})
 		.AddMongoDBInstrumentation()
-		.AddConsoleExporter())
-	.StartWithHost();
+		.AddConsoleExporter());
 
 // Add ASP.NET MVC
 _ = builder.Services
