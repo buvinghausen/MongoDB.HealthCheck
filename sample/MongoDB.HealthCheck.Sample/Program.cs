@@ -28,7 +28,6 @@ _ = builder.Services
 		.AddAspNetCoreInstrumentation(o =>
 		{
 			o.RecordException = true;
-			o.EnableGrpcAspNetCoreSupport = true;
 		})
 		.AddMongoDBInstrumentation()
 		.AddConsoleExporter());
