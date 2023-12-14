@@ -25,10 +25,7 @@ _ = builder.Services
 	.WithTracing(trace => trace
 		.SetResourceBuilder(ResourceBuilder.CreateDefault()
 			.AddService(builder.Environment.ApplicationName, serviceInstanceId: SequentialGuidGenerator.Instance.NewGuid().ToString()))
-		.AddAspNetCoreInstrumentation(o =>
-		{
-			o.RecordException = true;
-		})
+		.AddAspNetCoreInstrumentation(o => o.RecordException = true)
 		.AddMongoDBInstrumentation()
 		.AddConsoleExporter());
 
@@ -45,7 +42,7 @@ builder.Services
 // Note the preferred function is to use an IMongoDatabase which has all your settings, instrumentation, and configuration applied
 _ = builder.Services
 	.AddHealthChecks()
-	.AddMongoHealthCheck(database, "MongoHttp"); 
+	.AddMongoHealthCheck(database, "MongoHttp");
 _ = builder.Services
 	.AddGrpcHealthChecks()
 	.AddMongoHealthCheck(database, "MongoGrpc");
