@@ -10,10 +10,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		.github\workflows\ci.yml = .github\workflows\ci.yml
 		sample\Directory.Build.props = sample\Directory.Build.props
 		src\Directory.Build.props = src\Directory.Build.props
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
+		.github\workflows\release.yml = .github\workflows\release.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoDB.HealthCheck.Sample", "sample\MongoDB.HealthCheck.Sample\MongoDB.HealthCheck.Sample.csproj", "{ED835B9B-F1DC-4AC5-A783-611DFE60DAE3}"
