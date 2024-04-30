@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path=".github\workflows\ci.yml" />
+    <File Path="sample\Directory.Build.props" />
+    <File Path="src\Directory.Build.props" />
+    <File Path="LICENSE.txt" />
+    <File Path="README.md" />
+    <File Path=".github\workflows\release.yml" />
+  </Folder>
+  <Project Path="sample\MongoDB.HealthCheck.Sample\MongoDB.HealthCheck.Sample.csproj">
+    <Configuration Solution="Release|*" Project="*|*|NoBuild" />
+  </Project>
+  <Project Path="src\MongoDB.HealthCheck\MongoDB.HealthCheck.csproj" />
+</Solution>
