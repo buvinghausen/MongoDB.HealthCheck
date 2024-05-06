@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore.HealthChecks" Version="2.*" />
     <PackageReference Include="MongoDB.Driver" Version="2.*" />
-    <PackageReference Include="MongoDB.Driver.Core.Extensions.OpenTelemetry" Version="1.*" />
+    <PackageReference Include="MongoDB.Driver.Core.Extensions.DiagnosticSources" Version="1.*" />
     <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.*" />
     <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.*" />
     <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.*" />

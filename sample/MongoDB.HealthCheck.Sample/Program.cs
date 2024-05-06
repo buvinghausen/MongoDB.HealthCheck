@@ -26,7 +26,7 @@ _ = builder.Services
 		.SetResourceBuilder(ResourceBuilder.CreateDefault()
 			.AddService(builder.Environment.ApplicationName, serviceInstanceId: SequentialGuidGenerator.Instance.NewGuid().ToString()))
 		.AddAspNetCoreInstrumentation(o => o.RecordException = true)
-		.AddMongoDBInstrumentation()
+		.AddSource(typeof(DiagnosticsActivityEventSubscriber).Assembly.GetName().Name)
 		.AddConsoleExporter());
 
 // Add ASP.NET MVC
