@@ -1,6 +1,5 @@
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Extensions.DiagnosticSources;
-using MongoDB.Driver.Linq;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using ProtoBuf.Grpc.Server;
@@ -10,7 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Configure MongoDB for OpenTelemetry instrumentation
 var url = new MongoUrl(builder.Configuration.GetConnectionString("Mongo"));
 var settings = MongoClientSettings.FromUrl(url);
-settings.LinqProvider = LinqProvider.V3;
 settings.ClusterConfigurator = cb =>
 	cb.Subscribe(new DiagnosticsActivityEventSubscriber(new InstrumentationOptions
 	{
@@ -26,7 +24,7 @@ _ = builder.Services
 		.SetResourceBuilder(ResourceBuilder.CreateDefault()
 			.AddService(builder.Environment.ApplicationName, serviceInstanceId: SequentialGuidGenerator.Instance.NewGuid().ToString()))
 		.AddAspNetCoreInstrumentation(o => o.RecordException = true)
-		.AddSource(typeof(DiagnosticsActivityEventSubscriber).Assembly.GetName().Name)
+		.AddSource(typeof(DiagnosticsActivityEventSubscriber).Assembly.GetName().Name!)
 		.AddConsoleExporter());
 
 // Add ASP.NET MVC

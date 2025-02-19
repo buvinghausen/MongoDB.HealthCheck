@@ -1,10 +1,10 @@
 <Project>
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net7.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net9.0;net8.0</TargetFrameworks>
     <Authors>Brian Buvinghausen</Authors>
     <Company>Buvinghausen Solutions</Company>
-    <Copyright>Copyright © 2024 Brian Buvinghausen</Copyright>
+    <Copyright>Copyright © 2025 Brian Buvinghausen</Copyright>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/buvinghausen/MongoDB.HealthCheck/blob/master/README.md</PackageProjectUrl>

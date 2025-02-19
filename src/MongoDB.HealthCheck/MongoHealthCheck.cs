@@ -38,7 +38,7 @@ internal sealed class MongoHealthCheck : IHealthCheck
 			// Run ping operation which contains the OK value we need
 			// This will also trigger the client cluster state to get populated
 			var ping = await _database
-				.RunCommandAsync<BsonDocument>(new BsonDocument { { "ping", 1 } }, default, cancellationToken)
+				.RunCommandAsync<BsonDocument>(new BsonDocument { { "ping", 1 } }, null, cancellationToken)
 				.ConfigureAwait(false);
 
 			// Mongo has different response types with ping
