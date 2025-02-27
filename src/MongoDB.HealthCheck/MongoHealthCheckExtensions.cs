@@ -17,7 +17,7 @@ public static class MongoHealthCheckExtensions
 {
 	// This is just the actual function call to add check
 	internal static IHealthChecksBuilder AddMongoHealthCheck(this IHealthChecksBuilder builder, MongoHealthCheck check, string? name = null, HealthStatus? failureStatus = null, IEnumerable<string>? tags = null) =>
-		builder is null	? throw new ArgumentNullException(nameof(builder)) : builder.AddCheck(name ?? "MongoDb", check, failureStatus, tags ?? new List<string>());
+		builder is null	? throw new ArgumentNullException(nameof(builder)) : builder.AddCheck(name ?? "MongoDb", check, failureStatus, tags ?? []);
 
 	/// <summary>
 	/// Adds a health check for a specific MongoDB database to the health check builder.
