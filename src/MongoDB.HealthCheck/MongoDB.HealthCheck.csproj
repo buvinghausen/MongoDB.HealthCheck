@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <Title>MongoDB.HealthCheck</Title>
-    <Description>Uses .NET's IHealthCheck interface to call into Mongo DB and run the ping operation to verify connectivity</Description>
-  </PropertyGroup>
+	<PropertyGroup>
+		<Title>MongoDB.HealthCheck</Title>
+		<Description>Uses .NET's IHealthCheck interface to call into Mongo DB and run the ping operation to verify connectivity</Description>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Condition="'$(TargetFramework)' == 'net9.0'" Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="9.0.0" />
-    <PackageReference Condition="'$(TargetFramework)' == 'net8.0'" Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.0" />
-    <PackageReference Include="MongoDB.Driver" Version="3.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Condition="'$(TargetFramework)' == 'net9.0'" Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="9.0.0" />
+		<PackageReference Condition="'$(TargetFramework)' == 'net8.0'" Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.0" />
+		<PackageReference Include="MongoDB.Driver" Version="3.0.0" />
+	</ItemGroup>
 
 </Project>
